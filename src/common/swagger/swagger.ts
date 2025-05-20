@@ -7,7 +7,7 @@ export async function swagger(app: INestApplication, enviroment: string) {
   }
 
   const docOption = new DocumentBuilder()
-    .setTitle('My first api')
+    .setTitle('Product Crud')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

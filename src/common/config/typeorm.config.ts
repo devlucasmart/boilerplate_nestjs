@@ -8,14 +8,16 @@ export const typeormConfig = registerAs(
   (): TypeOrmModuleOptions => {
     return {
       type: 'mysql',
-      url: process.env.DATABASE_URL
-        ? process.env.URL
-        : 'mysql://user:user123@localhost:5432/estudodb',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'mysql',
+      database: 'cruddb',
       migrationsRun:
         'string' === typeof process.env.DATABASE_MIGRATIONS_RUN
           ? process.env.DATABASE_MIGRATIONS_RUN === 'true'
           : false,
-      entities: [__dirname + '/../**/*.entity.{js, ts}'],
+      entities: [__dirname + '/../**/*.entity.{js,ts}'],
       subscribers: [],
       synchronize: true,
       autoLoadEntities: true,

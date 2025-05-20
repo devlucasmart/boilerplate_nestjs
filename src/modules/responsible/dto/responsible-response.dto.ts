@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateResponsibleDto {
+export class ResponsibleResponseDto {
   @ApiProperty({
     description: 'Nome do responsável',
     example: 'João Silva',

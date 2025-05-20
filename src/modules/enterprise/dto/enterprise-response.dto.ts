@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateEnterpriseDto {
+export class EnterpriseResponseDto {
   @ApiProperty({
     description: 'Nome da empresa',
     example: 'Tech Solutions Ltda',

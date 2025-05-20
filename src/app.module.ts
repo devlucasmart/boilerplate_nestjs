@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnterpriseModule } from './modules/enterprise/enterprise.module';
 import { ResponsibleModule } from './modules/responsible/responsible.module';
 import { ProductsModule } from './modules/products/products.module';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ProductsModule } from './modules/products/products.module';
     EnterpriseModule,
     ResponsibleModule,
     ProductsModule,
+    LoggerModule,
   ],
   controllers: [],
   providers: [],

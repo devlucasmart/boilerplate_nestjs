@@ -2,41 +2,96 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
-  Param,
+  Put,
   Delete,
+  Param,
+  Body,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
-import { ProductsService } from '../services/products.service';
+import { ProductService } from '../services/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import { ProductResponseDto } from '../dto/product-response.dto';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('Products')
 @Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+export class ProductController {
+  constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Produto criado com sucesso.',
+    type: ProductResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Dados inválidos.',
+  })
+  async create(
+    @Body() createProductDto: CreateProductDto,
+  ): Promise<ProductResponseDto> {
+    return this.productService.create(createProductDto);
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Lista de produtos retornada com sucesso.',
+    type: [ProductResponseDto],
+  })
+  async findAll(): Promise<ProductResponseDto[]> {
+    return this.productService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Produto retornado com sucesso.',
+    type: ProductResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Produto não encontrado.',
+  })
+  async findOne(@Param('id') id: string): Promise<ProductResponseDto> {
+    return this.productService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  @Put(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Produto atualizado com sucesso.',
+    type: ProductResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Produto não encontrado.',
+  })
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<ProductResponseDto> {
+    return this.productService.update(id, updateProductDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Produto removido com sucesso.',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Produto não encontrado.',
+  })
+  async remove(@Param('id') id: string): Promise<void> {
+    return this.productService.remove(id);
   }
 }
